@@ -34,7 +34,6 @@ function Quiz() {
         setQuestions(data.questions);
         setAnswers(data.answers);
         setIsLoading(false);
-        console.log(data);
         // manageLocalStorage(data);
       });
   }, []);
@@ -47,9 +46,6 @@ function Quiz() {
   // };
 
   const handleCheck = () => {
-    console.log(selectedAnswer);
-    console.log(answers[questionIndex].answer);
-
     if (selectedAnswer && selectedAnswer.length !== 0) {
       let isCorrect = false;
       if (questions[questionIndex].type !== "multiple") {
@@ -91,22 +87,33 @@ function Quiz() {
     }
   };
 
+  const formateDate = (date) => {
+    return `${String(date.getHours()).padStart(2, "0")}:${String(
+      date.getMinutes()
+    ).padStart(2, "0")}  ${String(date.getUTCDate()).padStart(
+      2,
+      "0"
+    )} / ${String(date.getMonth() + 1).padStart(
+      2,
+      "0"
+    )} / ${date.getFullYear()}`;
+  };
+
   const saveToLocalStorage = () => {
     let history = [];
     let date = new Date();
     let currentRecord = {
       score: score,
-      time: `${date.getHours()}:${date.getMinutes()} ${date.getUTCDate()}/${
-        date.getMonth() + 1
-      }/${date.getFullYear()}`,
+      time: formateDate(date),
+      timeForCompare: date.getTime(),
     };
 
     if (!localStorage.getItem("history")) {
-      history.push(currentRecord);
+      history.push({ ...currentRecord, id: history.length + 1 });
       localStorage.setItem("history", JSON.stringify(history));
     } else {
       history = [...JSON.parse(localStorage.getItem("history"))];
-      history.push(currentRecord);
+      history.push({ ...currentRecord, id: history.length + 1 });
       localStorage.setItem("history", JSON.stringify(history));
     }
 

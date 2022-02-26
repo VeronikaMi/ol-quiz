@@ -7,10 +7,22 @@ function Home() {
   const [historyRecord, setHistoryRecord] = useState({});
 
   useEffect(() => {
-    if (localStorage.getItem("history")) {
-      setShowHistory(true);
+    if (
+      localStorage.getItem("history") &&
+      localStorage.getItem("history") !== "[]"
+    ) {
       let history = JSON.parse(localStorage.getItem("history"));
-      setHistoryRecord(history[history.length - 1]);
+      let sortedHistory = history.sort((a, b) => {
+        if (a.timeForCompare < b.timeForCompare) {
+          return 1;
+        }
+        if (a.timeForCompare > b.timeForCompare) {
+          return -1;
+        }
+        return 0;
+      });
+      setHistoryRecord(sortedHistory[0]);
+      setShowHistory(true);
     }
   }, []);
 

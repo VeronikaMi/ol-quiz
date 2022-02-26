@@ -1,10 +1,27 @@
-h1 {
-  margin: 0;
-}
-
 .history {
   padding: 40px;
+  position: relative;
+  h1,
+  p {
+    margin: 0;
+  }
 
+  .menu {
+    width: fit-content;
+    position: absolute;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      background-color: #fff;
+
+      li {
+        border: 1px solid #000;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+    }
+  }
   .container {
     width: 60%;
     margin: 0 auto;
@@ -16,6 +33,14 @@ h1 {
       background-color: #fff;
       padding: 10px;
       margin: 15px 0;
+
+      p {
+        margin-bottom: 10px;
+      }
+      .category {
+        font-weight: bold;
+        font-size: 18px;
+      }
     }
 
     .btn-container {
