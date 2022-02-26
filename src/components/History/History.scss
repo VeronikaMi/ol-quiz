@@ -1,0 +1,38 @@
+h1 {
+  margin: 0;
+}
+
+.history {
+  padding: 40px;
+
+  .container {
+    width: 60%;
+    margin: 0 auto;
+    h1 {
+      padding-bottom: 20px;
+    }
+
+    .record {
+      background-color: #fff;
+      padding: 10px;
+      margin: 15px 0;
+    }
+
+    .btn-container {
+      button {
+        border: none;
+        background-color: #fff;
+        color: #4bb5cd;
+        cursor: pointer;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 16px;
+
+        &:hover {
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+            rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+        }
+      }
+    }
+  }
+}

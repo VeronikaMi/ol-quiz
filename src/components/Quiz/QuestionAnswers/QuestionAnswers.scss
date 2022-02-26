@@ -1,0 +1,43 @@
+.qa-container {
+  padding: 40px 20px;
+
+  .question {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+
+  .answers {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 40px;
+    justify-content: space-around;
+
+    .btn-answer {
+      border: 2px solid #4ab5cd;
+      cursor: pointer;
+      background-color: #fff;
+      padding: 20px 40px;
+      font-size: 18px;
+      color: #000;
+      margin-top: 40px;
+
+      &:hover {
+        border: 2px solid #4d98a8;
+      }
+    }
+    .selected {
+      background-color: #4ab5cd;
+      color: #fff;
+    }
+    .correct {
+      border: none;
+      background-color: rgb(74, 223, 74);
+    }
+
+    .incorrect {
+      border: none;
+      background-color: rgb(223, 74, 74);
+    }
+  }
+}
