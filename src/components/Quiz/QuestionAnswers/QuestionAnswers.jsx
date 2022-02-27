@@ -1,5 +1,7 @@
 import React from "react";
+
 import "./QuestionAnswers.scss";
+
 import BooleanSelect from "./BooleanSelect/BooleanSelect";
 import SingleSelect from "./SingleSelect/SingleSelect";
 import MultipleSelect from "./MultipleSelect/MultipleSelect";

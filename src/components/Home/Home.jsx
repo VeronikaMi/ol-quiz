@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { mySort } from "../../utils";
 import "./Home.scss";
 
 function Home() {
@@ -12,15 +13,9 @@ function Home() {
       localStorage.getItem("history") !== "[]"
     ) {
       let history = JSON.parse(localStorage.getItem("history"));
-      let sortedHistory = history.sort((a, b) => {
-        if (a.timeForCompare < b.timeForCompare) {
-          return 1;
-        }
-        if (a.timeForCompare > b.timeForCompare) {
-          return -1;
-        }
-        return 0;
-      });
+      let sortedHistory = history.sort((a, b) =>
+        mySort(a.timeForCompare, b.timeForCompare)
+      );
       setHistoryRecord(sortedHistory[0]);
       setShowHistory(true);
     }

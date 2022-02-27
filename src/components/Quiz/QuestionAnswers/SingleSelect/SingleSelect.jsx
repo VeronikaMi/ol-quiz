@@ -1,31 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import "../QuestionAnswers.scss";
 
+import {
+  manageSelectedAnswerAndDisabledBtns,
+  manageSingleSelect,
+} from "../../../../utils";
+
 function SingleSelect(props) {
   const btns = useRef();
 
   const handleClick = (e) => {
-    if (!e.target.classList.contains("selected")) {
-      e.target.classList.add("selected");
-    }
-
-    btns.current.childNodes.forEach((btn) => {
-      if (btn.id !== e.target.id && btn.classList.contains("selected"))
-        btn.classList.remove("selected");
-    });
-
+    manageSingleSelect(e, btns);
     props.onSelectAnswer(e.target.id);
   };
 
   useEffect(() => {
-    btns.current.childNodes.forEach((btn) => {
-      if (btn.classList.contains("selected")) {
-        btn.classList.add(`${props.answerStatus}`);
-      }
-      if (props.answerStatus) {
-        btn.disabled = true;
-      }
-    });
+    manageSelectedAnswerAndDisabledBtns(btns, props.answerStatus);
   }, [props.answerStatus]);
 
   return (

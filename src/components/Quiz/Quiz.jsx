@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 import "./Quiz.scss";
 
-import { API as url } from "../../utils";
+import { API as url, manageLocalStorage } from "../../utils";
 
 import QuestionAnswers from "./QuestionAnswers/QuestionAnswers";
 import ClipLoader from "react-spinners/ClipLoader";
+import Popup from "./Popup/Popup";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -20,10 +20,6 @@ function Quiz() {
   const [isLoading, setIsLoading] = useState(true);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [barWidth, setBarWidth] = useState(0);
-
-  const popup = useRef();
-
-  let navigate = useNavigate();
 
   let barUnit = (1 / questions.length) * 100;
 
@@ -46,13 +42,6 @@ function Quiz() {
       setIsLoading(false);
     }
   }, []);
-
-  const manageLocalStorage = (data) => {
-    localStorage.setItem("questions", JSON.stringify(data));
-    setTimeout(() => {
-      localStorage.removeItem("questions");
-    }, 600000);
-  };
 
   const handleCheck = () => {
     if (selectedAnswer && selectedAnswer.length !== 0) {
@@ -90,66 +79,10 @@ function Quiz() {
     setSelectedAnswer(null);
   };
 
-  const handlePopupClick = (e) => {
-    if (!popup.current.contains(e.target)) {
-      setShowPopup(false);
-    }
-  };
-
-  const formateDate = (date) => {
-    return `${String(date.getHours()).padStart(2, "0")}:${String(
-      date.getMinutes()
-    ).padStart(2, "0")}  ${String(date.getUTCDate()).padStart(
-      2,
-      "0"
-    )} / ${String(date.getMonth() + 1).padStart(
-      2,
-      "0"
-    )} / ${date.getFullYear()}`;
-  };
-
-  const saveToLocalStorage = () => {
-    let history = [];
-    let date = new Date();
-    let currentRecord = {
-      score: score,
-      time: formateDate(date),
-      timeForCompare: date.getTime(),
-    };
-
-    if (!localStorage.getItem("history")) {
-      history.push({ ...currentRecord, id: history.length + 1 });
-      localStorage.setItem("history", JSON.stringify(history));
-    } else {
-      history = [...JSON.parse(localStorage.getItem("history"))];
-      history.push({ ...currentRecord, id: history.length + 1 });
-      localStorage.setItem("history", JSON.stringify(history));
-    }
-
-    navigate("/");
-  };
-
   return (
     <div className="quiz">
       {showPopup && (
-        <div className="popup-overlay" onClick={handlePopupClick}>
-          <div className="popup" ref={popup}>
-            <button className="btn-close" onClick={() => setShowPopup(false)}>
-              X
-            </button>
-            <div className="content">
-              <h3>Do you want to save this attempt?</h3>
-              <div className="btn-popup">
-                <button className="btn-main" onClick={saveToLocalStorage}>
-                  Yes
-                </button>
-                <Link to="/">
-                  <button className="btn-main">No</button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Popup score={score} onShowPopup={(show) => setShowPopup(show)} />
       )}
       <div className="container">
         <ClipLoader loading={isLoading} size={60} color={"#4ab5cd"} />

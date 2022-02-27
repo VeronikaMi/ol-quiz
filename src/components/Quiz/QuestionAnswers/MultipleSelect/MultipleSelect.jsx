@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../QuestionAnswers.scss";
 
+import { manageSelectedAnswerAndDisabledBtns } from "../../../../utils";
+
 function MultipleSelect(props) {
   const btns = useRef();
   const [choices, setChoices] = useState([]);
@@ -19,14 +21,7 @@ function MultipleSelect(props) {
   useEffect(() => props.onSelectAnswer(choices), [choices]);
 
   useEffect(() => {
-    btns.current.childNodes.forEach((btn) => {
-      if (btn.classList.contains("selected")) {
-        btn.classList.add(`${props.answerStatus}`);
-      }
-      if (props.answerStatus) {
-        btn.disabled = true;
-      }
-    });
+    manageSelectedAnswerAndDisabledBtns(btns, props.answerStatus);
   }, [props.answerStatus]);
 
   return (
