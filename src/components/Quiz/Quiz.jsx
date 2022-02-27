@@ -28,22 +28,31 @@ function Quiz() {
   let barUnit = (1 / questions.length) * 100;
 
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setQuestions(data.questions);
-        setAnswers(data.answers);
-        setIsLoading(false);
-        // manageLocalStorage(data);
-      });
+    if (!localStorage.getItem("questions")) {
+      console.log("fetched");
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          setQuestions(data.questions);
+          setAnswers(data.answers);
+          setIsLoading(false);
+          manageLocalStorage(data);
+        });
+    } else {
+      console.log("from local");
+      let data = JSON.parse(localStorage.getItem("questions"));
+      setQuestions(data.questions);
+      setAnswers(data.answers);
+      setIsLoading(false);
+    }
   }, []);
 
-  // const manageLocalStorage = (data) => {
-  //   localStorage.setItem("questions", JSON.stringify(data));
-  //   setTimeout(() => {
-  //     localStorage.removeItem("questions");
-  //   }, 600000);
-  // };
+  const manageLocalStorage = (data) => {
+    localStorage.setItem("questions", JSON.stringify(data));
+    setTimeout(() => {
+      localStorage.removeItem("questions");
+    }, 600000);
+  };
 
   const handleCheck = () => {
     if (selectedAnswer && selectedAnswer.length !== 0) {
