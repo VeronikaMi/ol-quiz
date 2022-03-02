@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Quiz.scss";
 
 import {
-  API as url,
   saveToLocalStorageAndDeleteAfter10Min,
   saveToLocalStorage,
 } from "../../utils";
@@ -49,7 +48,7 @@ function Quiz() {
     if (selectedAnswer && selectedAnswer.length !== 0) {
       let isCorrect = false;
       if (questions[questionIndex].type !== "multiple") {
-        if (answers[questionIndex].answer == JSON.parse(selectedAnswer)) {
+        if (answers[questionIndex].answer === JSON.parse(selectedAnswer)) {
           isCorrect = true;
         }
       } else {
