@@ -11,6 +11,7 @@ import {
 import QuestionAnswers from "./QuestionAnswers/QuestionAnswers";
 import ClipLoader from "react-spinners/ClipLoader";
 import Popup from "./Popup/Popup";
+import { tempData } from "../../tempData";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -31,17 +32,12 @@ function Quiz() {
 
   useEffect(() => {
     if (!localStorage.getItem("questions")) {
-      console.log("fetched");
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          setQuestions(data.questions);
-          setAnswers(data.answers);
-          setIsLoading(false);
-          saveToLocalStorageAndDeleteAfter10Min(data);
-        });
+      let data = tempData;
+      setQuestions(data.questions);
+      setAnswers(data.answers);
+      setIsLoading(false);
+      saveToLocalStorageAndDeleteAfter10Min(data);
     } else {
-      console.log("from local");
       let data = JSON.parse(localStorage.getItem("questions"));
       setQuestions(data.questions);
       setAnswers(data.answers);
