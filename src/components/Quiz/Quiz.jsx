@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Quiz.scss";
 
-import { API as url, manageLocalStorage } from "../../utils";
+import {
+  API as url,
+  saveToLocalStorageAndDeleteAfter10Min,
+  saveToLocalStorage,
+} from "../../utils";
 
 import QuestionAnswers from "./QuestionAnswers/QuestionAnswers";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -21,6 +25,8 @@ function Quiz() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [barWidth, setBarWidth] = useState(0);
 
+  let navigate = useNavigate();
+
   let barUnit = (1 / questions.length) * 100;
 
   useEffect(() => {
@@ -32,7 +38,7 @@ function Quiz() {
           setQuestions(data.questions);
           setAnswers(data.answers);
           setIsLoading(false);
-          manageLocalStorage(data);
+          saveToLocalStorageAndDeleteAfter10Min(data);
         });
     } else {
       console.log("from local");
@@ -82,7 +88,11 @@ function Quiz() {
   return (
     <div className="quiz">
       {showPopup && (
-        <Popup score={score} onShowPopup={(show) => setShowPopup(show)} />
+        <Popup
+          score={score}
+          onShowPopup={(show) => setShowPopup(show)}
+          navigateHome={() => navigate("/")}
+        />
       )}
       <div className="container">
         <ClipLoader loading={isLoading} size={60} color={"#4ab5cd"} />
@@ -131,7 +141,11 @@ function Quiz() {
                 Try Again
               </button>
               <Link to="/history">
-                <button type="button" className="btn-main">
+                <button
+                  type="button"
+                  className="btn-main"
+                  onClick={() => saveToLocalStorage(score)}
+                >
                   See history
                 </button>
               </Link>

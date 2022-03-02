@@ -1,33 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../QuestionAnswers.scss";
 
-import { manageSelectedAnswerAndDisabledBtns } from "../../../../utils";
+import { manageSelectedAnswerAndDisabledButtons } from "../../../../utils";
 
 function MultipleSelect(props) {
-  const btns = useRef();
+  const buttons = useRef();
   const [choices, setChoices] = useState([]);
 
   const handleClick = (e) => {
     let id = JSON.parse(e.target.id);
     if (e.target.classList.contains("selected")) {
       e.target.classList.remove("selected");
-      setChoices(choices.filter((id) => id !== id));
+      setChoices(choices.filter((choiceId) => choiceId !== id));
     } else {
       e.target.classList.add("selected");
       setChoices([...choices, id]);
     }
   };
 
-  useEffect(() => props.onSelectAnswer(choices), [choices]);
+  useEffect(
+    () => props.onSelectAnswer(choices),
+    [choices, props.onSelectAnswer]
+  );
 
   useEffect(() => {
-    manageSelectedAnswerAndDisabledBtns(btns, props.answerStatus);
+    manageSelectedAnswerAndDisabledButtons(buttons, props.answerStatus);
   }, [props.answerStatus]);
 
   return (
-    <div className="continer">
+    <div className="container-qa">
       <div className="question">{props.question}</div>
-      <div className="answers" ref={btns}>
+      <div className="answers" ref={buttons}>
         {props.answers.length > 0 &&
           props.answers.map((answer, index) => (
             <button

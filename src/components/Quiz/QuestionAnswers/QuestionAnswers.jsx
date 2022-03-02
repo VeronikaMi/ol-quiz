@@ -6,33 +6,25 @@ import BooleanSelect from "./BooleanSelect/BooleanSelect";
 import SingleSelect from "./SingleSelect/SingleSelect";
 import MultipleSelect from "./MultipleSelect/MultipleSelect";
 
-function QuestionAnswers(props) {
+function QuestionAnswers({
+  question,
+  answers,
+  handleSelect,
+  answerStatus,
+  type,
+}) {
+  let questionProps = {
+    question,
+    answers,
+    onSelectAnswer: handleSelect,
+    answerStatus,
+  };
+
   return (
     <div className="qa-container">
-      {props.type === "boolean" && (
-        <BooleanSelect
-          question={props.question}
-          answers={props.answers}
-          onSelectAnswer={props.handleSelect}
-          answerStatus={props.answerStatus}
-        />
-      )}
-      {props.type === "single" && (
-        <SingleSelect
-          question={props.question}
-          answers={props.answers}
-          onSelectAnswer={props.handleSelect}
-          answerStatus={props.answerStatus}
-        />
-      )}
-      {props.type === "multiple" && (
-        <MultipleSelect
-          question={props.question}
-          answers={props.answers}
-          onSelectAnswer={props.handleSelect}
-          answerStatus={props.answerStatus}
-        />
-      )}
+      {type === "boolean" && <BooleanSelect {...questionProps} />}
+      {type === "single" && <SingleSelect {...questionProps} />}
+      {type === "multiple" && <MultipleSelect {...questionProps} />}
     </div>
   );
 }

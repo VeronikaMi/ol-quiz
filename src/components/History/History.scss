@@ -1,27 +1,12 @@
 .history {
-  padding: 40px;
+  padding: 5vh;
   position: relative;
+  min-height: 90vh;
   h1,
   p {
     margin: 0;
   }
 
-  .menu {
-    width: fit-content;
-    position: fixed;
-
-    ul {
-      list-style: none;
-      padding: 0;
-      background-color: #fff;
-
-      li {
-        border: 1px solid #000;
-        padding: 10px 20px;
-        cursor: pointer;
-      }
-    }
-  }
   .container {
     width: 60%;
     margin: 0 auto;

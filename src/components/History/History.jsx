@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 
-import { mySort } from "../../utils";
+import { sortHistory } from "../../utils";
+import ContextMenu from "./ContextMenu/ContextMenu";
 import "./History.scss";
 
 function History() {
@@ -15,13 +16,7 @@ function History() {
   useEffect(() => {
     if (localStorage.getItem("history")) {
       let records = JSON.parse(localStorage.getItem("history"));
-      records.sort((a, b) => {
-        if (b.score === a.score) {
-          return mySort(a.timeForCompare, b.timeForCompare);
-        } else {
-          return b.score - a.score;
-        }
-      });
+      sortHistory(records);
       setHistory(records);
     }
   }, []);
@@ -34,7 +29,7 @@ function History() {
     setLeft(e.clientX);
   };
 
-  const handleDelete = (e) => {
+  const handleDelete = (_) => {
     setHistory((prev) => [
       ...prev.filter((record) => record.id !== idToDelete),
     ]);
@@ -54,11 +49,11 @@ function History() {
   return (
     <div className="history" onClick={handleClick}>
       {showMenu && (
-        <div className="menu" style={{ top: top, left: left }} ref={menu}>
-          <ul>
-            <li onClick={handleDelete}>Delete</li>
-          </ul>
-        </div>
+        <ContextMenu
+          handleDelete={handleDelete}
+          ref={menu}
+          position={{ top, left }}
+        />
       )}
 
       <div className="container">

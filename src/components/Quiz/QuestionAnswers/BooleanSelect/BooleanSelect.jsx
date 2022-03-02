@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import "../QuestionAnswers.scss";
 
 import {
-  manageSelectedAnswerAndDisabledBtns,
+  manageSelectedAnswerAndDisabledButtons,
   manageSingleSelect,
 } from "../../../../utils";
 
@@ -14,11 +14,11 @@ function BooleanSelect(props) {
   };
 
   useEffect(() => {
-    manageSelectedAnswerAndDisabledBtns(btns, props.answerStatus);
+    manageSelectedAnswerAndDisabledButtons(btns, props.answerStatus);
   }, [props.answerStatus]);
 
   return (
-    <div className="continer">
+    <div className="container-qa">
       <div className="question">{props.question}</div>
       <div className="answers" ref={btns}>
         <button

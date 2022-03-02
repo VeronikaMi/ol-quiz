@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { mySort } from "../../utils";
+import { sortByNonnumericalValues } from "../../utils";
 import "./Home.scss";
 
 function Home() {
@@ -14,7 +14,7 @@ function Home() {
     ) {
       let history = JSON.parse(localStorage.getItem("history"));
       let sortedHistory = history.sort((a, b) =>
-        mySort(a.timeForCompare, b.timeForCompare)
+        sortByNonnumericalValues(a.timeForCompare, b.timeForCompare)
       );
       setHistoryRecord(sortedHistory[0]);
       setShowHistory(true);
