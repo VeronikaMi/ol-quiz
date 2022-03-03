@@ -3,7 +3,7 @@ import "../QuestionAnswers.scss";
 
 import { manageSelectedAnswerAndDisabledButtons } from "../../../../utils";
 
-function MultipleSelect(props) {
+function MultipleSelect({ onSelectAnswer, ...props }) {
   const buttons = useRef();
   const [choices, setChoices] = useState([]);
 
@@ -18,10 +18,7 @@ function MultipleSelect(props) {
     }
   };
 
-  useEffect(
-    () => props.onSelectAnswer(choices),
-    [choices, props.onSelectAnswer]
-  );
+  useEffect(() => onSelectAnswer(choices), [choices, onSelectAnswer]);
 
   useEffect(() => {
     manageSelectedAnswerAndDisabledButtons(buttons, props.answerStatus);

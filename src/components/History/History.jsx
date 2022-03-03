@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { sortHistory } from "../../utils";
 import ContextMenu from "./ContextMenu/ContextMenu";
 import "./History.scss";
+import HistoryRecord from "./HistoryRecord/HistoryRecord";
 
 function History() {
   const menu = useRef();
@@ -60,18 +61,11 @@ function History() {
         <h1>History:</h1>
         {history.length > 0 ? (
           history.map((record, index) => (
-            <div
-              className="record"
+            <HistoryRecord
               key={index}
-              onContextMenu={(e) => handleRightClick(e, record)}
-            >
-              <p>
-                <span className="category"> Score:</span> {record.score}
-              </p>
-              <p>
-                <span className="category"> Time:</span> {record.time}
-              </p>
-            </div>
+              record={record}
+              onRightClick={(e) => handleRightClick(e, record)}
+            />
           ))
         ) : (
           <h3>No records</h3>

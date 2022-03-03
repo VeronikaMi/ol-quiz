@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Quiz.scss";
 
@@ -11,6 +11,7 @@ import {
 import QuestionAnswers from "./QuestionAnswers/QuestionAnswers";
 import ClipLoader from "react-spinners/ClipLoader";
 import Popup from "./Popup/Popup";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 function Quiz() {
   const [questions, setQuestions] = useState([]);
@@ -26,12 +27,10 @@ function Quiz() {
   const [barWidth, setBarWidth] = useState(0);
 
   let navigate = useNavigate();
-
   let barUnit = (1 / questions.length) * 100;
 
   useEffect(() => {
     if (!localStorage.getItem("questions")) {
-      console.log("fetched");
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
@@ -41,7 +40,6 @@ function Quiz() {
           saveToLocalStorageAndDeleteAfter10Min(data);
         });
     } else {
-      console.log("from local");
       let data = JSON.parse(localStorage.getItem("questions"));
       setQuestions(data.questions);
       setAnswers(data.answers);
@@ -53,7 +51,7 @@ function Quiz() {
     if (selectedAnswer && selectedAnswer.length !== 0) {
       let isCorrect = false;
       if (questions[questionIndex].type !== "multiple") {
-        if (answers[questionIndex].answer == JSON.parse(selectedAnswer)) {
+        if (answers[questionIndex].answer === JSON.parse(selectedAnswer)) {
           isCorrect = true;
         }
       } else {
@@ -98,9 +96,7 @@ function Quiz() {
         <ClipLoader loading={isLoading} size={60} color={"#4ab5cd"} />
         {questions.length > 0 && questionIndex !== questions.length && (
           <div className="question-container">
-            <div className="progress-bar">
-              <div className="answered" style={{ width: `${barWidth}%` }}></div>
-            </div>
+            <ProgressBar barWidth={barWidth} />
             <QuestionAnswers
               type={questions[questionIndex].type}
               question={questions[questionIndex].question}

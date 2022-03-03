@@ -1,3 +1,4 @@
+@import "../../colors.scss";
 .home {
   width: 50%;
   margin: 0 auto;
@@ -20,7 +21,7 @@
   .btn-main {
     border: none;
     background-color: #fff;
-    color: #4bb5cd;
+    color: $main-color;
     cursor: pointer;
     padding: 20px 30px;
     font-weight: bold;
@@ -37,8 +38,8 @@
   }
 
   .btn-secondary {
-    border: 1px solid #4bb5cd;
-    color: #4bb5cd;
+    border: 1px solid $main-color;
+    color: $main-color;
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;

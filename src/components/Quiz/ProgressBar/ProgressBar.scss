@@ -1,0 +1,17 @@
+@import "../../../colors.scss";
+.progress-bar {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 15px;
+  height: 20px;
+  border: 1px solid $secondary-color;
+  margin-bottom: 20px;
+
+  .answered {
+    background-color: $secondary-color;
+    width: 0;
+    height: inherit;
+    border-radius: inherit;
+  }
+}
