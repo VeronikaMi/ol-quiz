@@ -21,13 +21,9 @@ function Quiz() {
   const [choiceStatus, setChoiceStatus] = useState("");
   const [score, setScore] = useState(0);
   const [showPopup, setShowPopup] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(true);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [barWidth, setBarWidth] = useState(0);
 
   let navigate = useNavigate();
-  let barUnit = (1 / questions.length) * 100;
 
   useEffect(() => {
     if (!localStorage.getItem("questions")) {
@@ -36,14 +32,12 @@ function Quiz() {
         .then((data) => {
           setQuestions(data.questions);
           setAnswers(data.answers);
-          setIsLoading(false);
           saveToLocalStorageAndDeleteAfter10Min(data);
         });
     } else {
       let data = JSON.parse(localStorage.getItem("questions"));
       setQuestions(data.questions);
       setAnswers(data.answers);
-      setIsLoading(false);
     }
   }, []);
 
@@ -77,7 +71,6 @@ function Quiz() {
 
   const handleNext = () => {
     setQuestionIndex((prev) => prev + 1);
-    setBarWidth((prev) => prev + barUnit);
     setChoiceStatus("");
     setIsChecked(false);
     setSelectedAnswer(null);
@@ -93,10 +86,10 @@ function Quiz() {
         />
       )}
       <div className="container">
-        <ClipLoader loading={isLoading} size={60} color={"#4ab5cd"} />
+        {!questions.length && <ClipLoader size={60} color={"#4ab5cd"} />}
         {questions.length > 0 && questionIndex !== questions.length && (
           <div className="question-container">
-            <ProgressBar barWidth={barWidth} />
+            <ProgressBar barWidth={(questionIndex / questions.length) * 100} />
             <QuestionAnswers
               type={questions[questionIndex].type}
               question={questions[questionIndex].question}
